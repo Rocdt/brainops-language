@@ -1,4 +1,3 @@
-cat > README.md <<'EOF'
 # BrainOps Language (BOL)
 
 BrainOps Language (BOL) is a **normative specification** for constraining, recording, and auditing thinking in systems where error has a non-trivial cost.
