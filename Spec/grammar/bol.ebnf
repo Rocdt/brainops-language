@@ -1,6 +1,3 @@
-cat > spec/grammar/bol.ebnf <<'EOF'
-(* BrainOps Language (BOL) — EBNF (Descriptive Grammar) *)
-
 Document        = { WS | Block } ;
 
 Block           = Task
@@ -138,4 +135,3 @@ Digit           = "0"…"9" ;
 CharNoQuote     = ? any character except " ? ;
 NotNewline      = ? any character except newline ? ;
 Newline         = "\n" ;
-EOF
