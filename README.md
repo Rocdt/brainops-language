@@ -25,6 +25,14 @@ This repository is the **canonical source of truth** for BOL.
 
 ---
 
+## Citation
+
+This specification can be cited via Zenodo.
+
+- **Versioned DOI (v0.1.0):** https://doi.org/10.5281/zenodo.17925569
+
+---
+
 ## Specification
 
 BOL is defined as a set of normative documents:
