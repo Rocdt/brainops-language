@@ -1,0 +1,132 @@
+{
+  "bol_version": "0.1.0",
+  "trace_id": "DEPLOY-X",
+  "title": "Decide whether to deploy Feature X to production",
+  "task": {
+    "id": "DEPLOY-X",
+    "goal": "Decide whether to deploy Feature X to production",
+    "class": "C"
+  },
+  "invariants": [
+    { "id": "INV-DEPLOY-001", "description": "No production deployment without verified rollback" },
+    { "id": "INV-DEPLOY-002", "description": "No deployment without risk assessment" }
+  ],
+  "constraints": [
+    {
+      "scope": "Decision",
+      "forbidden": ["Deploy without human approval"],
+      "allowed": ["Deploy after all gates pass"]
+    }
+  ],
+  "phases": [
+    {
+      "phase": 0,
+      "name": "Context Fixation",
+      "context": {
+        "known": [
+          "Feature X implemented",
+          "Staging tests passed",
+          "Rollback mechanism exists"
+        ],
+        "unknown": [
+          "Production load impact",
+          "Edge-case behavior under peak traffic"
+        ],
+        "assumptions": [
+          "Traffic pattern similar to last release"
+        ]
+      },
+      "events": [
+        { "type": "phase_complete" }
+      ]
+    },
+    {
+      "phase": 1,
+      "name": "Hypothesis Formation",
+      "hypotheses": [
+        { "id": "H1", "text": "Feature X will not cause unacceptable latency increase under production load." },
+        { "id": "H2", "text": "Rollback procedure can restore service within SLA." }
+      ],
+      "intuition_signals": [
+        { "description": "Engineering confidence based on similarity to previous release", "confidence": 0.6 }
+      ],
+      "events": [
+        { "type": "phase_complete" }
+      ]
+    },
+    {
+      "phase": 2,
+      "name": "Verification",
+      "artifacts": [
+        { "id": "A-LOAD-STAGING", "type": "LoadTestReport", "source": "Staging environment (insufficient)", "validates": "Partial load behavior" },
+        { "id": "A-ROLLBACK", "type": "RollbackDrillReport", "source": "Controlled rollback exercise", "validates": "Rollback within SLA" }
+      ],
+      "checks": [
+        { "id": "C1", "target": "H1", "artifacts": ["A-LOAD-STAGING"], "status": "blocked", "note": "Production-scale load test not available." },
+        { "id": "C2", "target": "H2", "artifacts": ["A-ROLLBACK"], "status": "pass" }
+      ],
+      "failures": [
+        { "id": "F1", "type": "missing_artifact", "correction": "Run production-scale load simulation", "linked_check": "C1" }
+      ],
+      "events": [
+        { "type": "phase_blocked", "reason": "Blocked checks exist" }
+      ]
+    },
+    {
+      "phase": 3,
+      "name": "Decision",
+      "risk": {
+        "level": "high",
+        "reason": "Unverified production load behavior",
+        "mitigation": "Delay deployment or run additional testing"
+      },
+      "artifacts": [
+        { "id": "A-RISK", "type": "RiskAssessment", "source": "Engineering review", "validates": "Risk acknowledged and mitigation defined" },
+        { "id": "A-HUMAN", "type": "HumanConfirmation", "source": "On-call engineering lead", "validates": "Decision accountability accepted" }
+      ],
+      "gates": [
+        {
+          "id": "G1",
+          "condition": "Context.unknown not empty",
+          "required_artifacts": ["A-RISK"],
+          "human_required": true
+        }
+      ],
+      "decision_attempt": {
+        "requested": true,
+        "decision": {
+          "based_on_checks": ["C1", "C2"],
+          "artifacts": ["A-RISK", "A-HUMAN"],
+          "owner": "oncall-lead",
+          "timestamp": "2025-12-14T00:00:00Z",
+          "result": "blocked",
+          "reason": "Blocked check C1 and unresolved unknowns for TaskClass C"
+        }
+      },
+      "events": [
+        { "type": "phase_blocked", "reason": "Decision blocked by rules" }
+      ]
+    },
+    {
+      "phase": 4,
+      "name": "Audit",
+      "audit": {
+        "summary": [
+          "All phases executed in order",
+          "No phase skipped",
+          "Gates enforced",
+          "Failures recorded",
+          "No premature Decision produced"
+        ],
+        "conformance": "conformant",
+        "final_outcome": {
+          "decision_made": false,
+          "reason": "Insufficient verification under TaskClass C constraints"
+        }
+      },
+      "events": [
+        { "type": "phase_complete" }
+      ]
+    }
+  ]
+}

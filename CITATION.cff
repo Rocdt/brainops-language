@@ -1,0 +1,23 @@
+cat > CITATION.cff <<'EOF'
+cff-version: 1.2.0
+title: "BrainOps Language (BOL)"
+message: "If you use this specification, please cite it."
+type: software
+authors:
+  - name: "<YOUR_NAME_OR_HANDLE>"
+version: "0.1.0"
+date-released: "2025-12-14"
+license: "CC-BY-4.0"
+repository-code: "https://github.com/<username>/brainops-language"
+keywords:
+  - "specification"
+  - "formal language"
+  - "auditability"
+  - "safety engineering"
+  - "human-in-the-loop"
+EOF
+
+
+authors:
+  - name: "Rocdt"
+    website: "https://github.com/Rocdt"

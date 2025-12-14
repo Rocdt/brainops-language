@@ -1,0 +1,141 @@
+cat > spec/grammar/bol.ebnf <<'EOF'
+(* BrainOps Language (BOL) — EBNF (Descriptive Grammar) *)
+
+Document        = { WS | Block } ;
+
+Block           = Task
+                | Context
+                | Invariant
+                | Constraint
+                | Artifact
+                | Hypothesis
+                | Check
+                | Risk
+                | Gate
+                | IntuitionSignal
+                | Decision
+                | Failure
+                | Comment
+                ;
+
+(* --- Core blocks --- *)
+
+Task            = "Task" WS? "{" WS?
+                  "id:" WS? ID WS+
+                  "goal:" WS? String WS+
+                  "class:" WS? TaskClass
+                  WS? "}" ;
+
+TaskClass       = "A" | "B" | "C" ;
+
+Context         = "Context" WS? "{" WS?
+                  "known:" WS? List WS+
+                  "unknown:" WS? List WS+
+                  "assumptions:" WS? List
+                  WS? "}" ;
+
+Invariant       = "Invariant" WS? "{" WS?
+                  "id:" WS? ID WS+
+                  "description:" WS? String
+                  [ WS+ "violation_cost:" WS? String ]
+                  WS? "}" ;
+
+Constraint      = "Constraint" WS? "{" WS?
+                  "scope:" WS? String WS+
+                  "forbidden:" WS? List WS+
+                  "allowed:" WS? List
+                  WS? "}" ;
+
+Artifact        = "Artifact" WS? "{" WS?
+                  "id:" WS? ID WS+
+                  "type:" WS? String WS+
+                  "source:" WS? String WS+
+                  "validates:" WS? String
+                  WS? "}" ;
+
+Hypothesis      = "Hypothesis" WS? "{" WS?
+                  "id:" WS? ID WS+
+                  "text:" WS? String
+                  WS? "}" ;
+
+Check           = "Check" WS? "{" WS?
+                  "id:" WS? ID WS+
+                  "target:" WS? (ID | String) WS+
+                  "artifacts:" WS? IdList WS+
+                  "status:" WS? CheckStatus
+                  [ WS+ "note:" WS? String ]
+                  WS? "}" ;
+
+CheckStatus     = "pass" | "fail" | "blocked" ;
+
+Risk            = "Risk" WS? "{" WS?
+                  "level:" WS? RiskLevel WS+
+                  "reason:" WS? String WS+
+                  "mitigation:" WS? String
+                  WS? "}" ;
+
+RiskLevel       = "low" | "medium" | "high" | "critical" ;
+
+Gate            = "Gate" WS? "{" WS?
+                  "id:" WS? ID WS+
+                  "condition:" WS? String WS+
+                  "required_artifacts:" WS? IdList WS+
+                  "human_required:" WS? Bool
+                  WS? "}" ;
+
+IntuitionSignal = "IntuitionSignal" WS? "{" WS?
+                  "description:" WS? String WS+
+                  "confidence:" WS? Number
+                  WS? "}" ;
+
+Decision        = "Decision" WS? "{" WS?
+                  "based_on:" WS? IdList WS+
+                  "artifacts:" WS? IdList WS+
+                  "owner:" WS? String WS+
+                  "timestamp:" WS? Timestamp WS+
+                  "result:" WS? DecisionResult
+                  [ WS+ "reason:" WS? String ]
+                  WS? "}" ;
+
+DecisionResult  = "approved" | "rejected" | "blocked" ;
+
+Failure         = "Failure" WS? "{" WS?
+                  "id:" WS? ID WS+
+                  "type:" WS? FailureType WS+
+                  "correction:" WS? String
+                  [ WS+ "linked_check:" WS? ID ]
+                  WS? "}" ;
+
+FailureType     = "context_loss"
+                | "missing_artifact"
+                | "invariant_violation"
+                | "overconfidence"
+                | "unchecked_assumption" ;
+
+(* --- Lexical --- *)
+
+List            = "[" WS? [ String { WS? "," WS? String } ] WS? "]" ;
+IdList          = "[" WS? [ ID { WS? "," WS? ID } ] WS? "]" ;
+
+Bool            = "true" | "false" ;
+
+ID              = Letter { Letter | Digit | "-" | "_" } ;
+
+String          = Quoted ;
+Quoted          = '"' { CharNoQuote } '"' ;
+
+Number          = Digit { Digit } [ "." Digit { Digit } ] ;
+
+Timestamp       = Quoted ;  (* ISO-8601 recommended *)
+
+Comment         = "#" { NotNewline } Newline ;
+
+WS              = { " " | "\t" | "\r" | "\n" } ;
+
+Letter          = "A"…"Z" | "a"…"z" ;
+Digit           = "0"…"9" ;
+
+CharNoQuote     = ? any character except " ? ;
+NotNewline      = ? any character except newline ? ;
+Newline         = "\n" ;
+EOF
