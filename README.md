@@ -44,13 +44,6 @@ Normative keywords MUST / MUST NOT / SHOULD / MAY are used consistently.
 
 ---
 
-## Examples
-Examples are **informative**, not normative:
-
-- `examples/01-hello-world.bol`
-
----
-
 ## Machine-readable Artifacts (Reference Implementation Layer)
 
 This repo also includes:
