@@ -4,6 +4,5 @@ title: "BrainOps Language (BOL)"
 version: v0.1.0
 date-released: 2025-12-14
 authors:
-  - family-names: Rocdt
-    given-names: ""
+  - name: "Rocdt"
 repository-code: "https://github.com/Rocdt/brainops-language"
