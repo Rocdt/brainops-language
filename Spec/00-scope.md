@@ -1,4 +1,4 @@
-cat > spec/00-scope.md <<'EOF'
+
 # BrainOps Language (BOL)
 ## Scope and Applicability (Normative)
 
@@ -66,4 +66,3 @@ BOL MUST NOT be used when:
 
 This repository is the **canonical source of truth** for BOL.
 Any fork or derivative MUST clearly state deviations.
-EOF
