@@ -1,8 +1,14 @@
 cff-version: 1.2.0
-message: "If you use this software, please cite it as below."
+message: "If you use this specification, please cite it as below."
 title: "BrainOps Language (BOL)"
 version: v0.1.0
 date-released: 2025-12-14
 authors:
   - name: "Rocdt"
 repository-code: "https://github.com/Rocdt/brainops-language"
+
+preferred-citation:
+  doi: 10.5281/zenodo.17925569
+  title: "BrainOps Language (BOL)"
+  version: v0.1.0
+  year: 2025
