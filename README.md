@@ -33,6 +33,13 @@ This specification can be cited via Zenodo.
 
 ---
 
+## Governance
+
+The BrainOps Language is governed under a steward-led model.
+See [GOVERNANCE.md](GOVERNANCE.md) for details.
+
+---
+
 ## Specification
 
 BOL is defined as a set of normative documents:
