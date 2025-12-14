@@ -19,7 +19,7 @@ This repository is the **canonical source of truth** for BOL.
 ---
 
 ## Authorship
-- Author: <YOUR_NAME_OR_HANDLE>
+- Author: Rocdt
 - First public release: 2025-12-14
 - Canonical repository: https://github.com/Rocdt/brainops-language
 
