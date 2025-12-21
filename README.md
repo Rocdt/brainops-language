@@ -82,7 +82,6 @@ See `CHANGELOG.md`.
 
 ## License
 See `LICENSE`.
-EOF
 
 ---
 
